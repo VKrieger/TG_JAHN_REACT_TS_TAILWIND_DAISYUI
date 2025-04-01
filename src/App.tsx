@@ -30,102 +30,105 @@ import Badminton from "./pages/Badminton/Badminton";
 import Datenschutz from "./pages/Datenschutz";
 import Impressum from "./pages/Impressum";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Root />,
-    children: [
-      {
-        index: true,
-        element: <HomePage />,
-      },
-      {
-        path: "/bambinis",
-        element: <Bambinis />,
-      },
-      {
-        path: "/d_jugend",
-        element: <D_Jugend />,
-      },
-      {
-        path: "/f_jugend",
-        element: <F_Jugend />,
-      },
-      {
-        path: "/d_jugend",
-        element: <D_Jugend />,
-      },
-      {
-        path: "/e_jugend",
-        element: <E_Jugend />,
-      },
-      {
-        path: "/herren",
-        element: <Herren />,
-      },
-      {
-        path: "/bauch_beine_po",
-        element: <Bauch_Beine_Po />,
-      },
-      {
-        path: "/gymnastik",
-        element: <Gymnastik />,
-      },
-      {
-        path: "/kinderturnen",
-        element: <Kinderturnen />,
-      },
-      {
-        path: "/leichtathletik",
-        element: <Leichtathletik />,
-      },
-      {
-        path: "/news",
-        element: <News />,
-      },
-      {
-        path: "/vorstand",
-        element: <Vorstand />,
-      },
-      {
-        path: "/ueber_uns",
-        element: <Ueber_uns />,
-      },
-      {
-        path: "/mitgliedschaft",
-        element: <Mitgliedschaft />,
-      },
-      {
-        path: "/downloads",
-        element: <Downloads />,
-      },
-      {
-        path: "/tischtennis",
-        element: <Tischtennis />,
-      },
-      {
-        path: "/volleyball",
-        element: <Volleyball />,
-      },
-      {
-        path: "/badminton",
-        element: <Badminton />,
-      },
-      {
-        path: "/datenschutz",
-        element: <Datenschutz />,
-      },
-      {
-        path: "/impressum",
-        element: <Impressum />,
-      },
-      {
-        path: "/:name",
-        element: <HomePage />,
-      },
-    ],
-  },
-]);
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Root />,
+      children: [
+        {
+          index: true,
+          element: <HomePage />,
+        },
+        {
+          path: "/bambinis",
+          element: <Bambinis />,
+        },
+        {
+          path: "/d_jugend",
+          element: <D_Jugend />,
+        },
+        {
+          path: "/f_jugend",
+          element: <F_Jugend />,
+        },
+        {
+          path: "/d_jugend",
+          element: <D_Jugend />,
+        },
+        {
+          path: "/e_jugend",
+          element: <E_Jugend />,
+        },
+        {
+          path: "/herren",
+          element: <Herren />,
+        },
+        {
+          path: "/bauch_beine_po",
+          element: <Bauch_Beine_Po />,
+        },
+        {
+          path: "/gymnastik",
+          element: <Gymnastik />,
+        },
+        {
+          path: "/kinderturnen",
+          element: <Kinderturnen />,
+        },
+        {
+          path: "/leichtathletik",
+          element: <Leichtathletik />,
+        },
+        {
+          path: "/news",
+          element: <News />,
+        },
+        {
+          path: "/vorstand",
+          element: <Vorstand />,
+        },
+        {
+          path: "/ueber_uns",
+          element: <Ueber_uns />,
+        },
+        {
+          path: "/mitgliedschaft",
+          element: <Mitgliedschaft />,
+        },
+        {
+          path: "/downloads",
+          element: <Downloads />,
+        },
+        {
+          path: "/tischtennis",
+          element: <Tischtennis />,
+        },
+        {
+          path: "/volleyball",
+          element: <Volleyball />,
+        },
+        {
+          path: "/badminton",
+          element: <Badminton />,
+        },
+        {
+          path: "/datenschutz",
+          element: <Datenschutz />,
+        },
+        {
+          path: "/impressum",
+          element: <Impressum />,
+        },
+        {
+          path: "/:name",
+          element: <HomePage />,
+        },
+      ],
+    },
+  ],
+  { basename: "/TG_JAHN_REACT_TS_TAILWIND_DAISYUI" }
+);
 
 function App() {
   return <RouterProvider router={router} />;

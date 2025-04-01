@@ -1,7 +1,7 @@
 import type {heroDetails} from "../../api/types/heroDetails"
 import Hero from "../../components/Hero";
 import HeroVideo from "../../styles/hero/hero_homepage_video.mp4"
-import HeroImg from "../../styles/hero/hero_.homepage.webp";
+import HeroImg from "../../styles/hero/hero_homepage.webp";
 
 function HomePage() {
 
