@@ -8,6 +8,7 @@ function Root() {
         <Navbar/>
         <Outlet />
         <Footer/>
+
     </div>
   )
 }

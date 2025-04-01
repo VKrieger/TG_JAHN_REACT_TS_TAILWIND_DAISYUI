@@ -7,8 +7,9 @@ interface HeroConfigProps {
 
 function Hero({ heroConfig }: HeroConfigProps) {
   return (
+    <div className="">
     <div
-      className="  mt-18 hero min-h-176 min-w-screen bg-blend-darken "
+      className=" mt-18  hero min-h-screen min-w-screen bg-blend-darken "
       style={{
         backgroundImage: `url(${heroConfig.backgroundImage})`,
         backgroundPosition: "center",
@@ -22,7 +23,7 @@ function Hero({ heroConfig }: HeroConfigProps) {
           autoPlay
           loop
           muted
-          className="invisible lg:visible  absolute -mt-3 h-full w-full object-cover"
+          className="invisible lg:visible  absolute  h-screen w-full object-cover"
         >
           <source src={heroConfig.backgroundVideo} type="video/mp4" />
           Your browser does not support the video tag.
@@ -48,6 +49,7 @@ function Hero({ heroConfig }: HeroConfigProps) {
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 }
