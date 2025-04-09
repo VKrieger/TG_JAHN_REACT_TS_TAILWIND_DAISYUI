@@ -1,11 +1,15 @@
 import Logo from "../styles/icons/logo.svg";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { useRef } from "react";
 
 function Navbar() {
+
   const vereinDropdownRef = useRef<HTMLDivElement>(null);
   const fussballDropdownRef = useRef<HTMLDivElement>(null);
   const breitensportDropdownRef = useRef<HTMLDivElement>(null);
+  const outletRef = useRef<HTMLDivElement>(null);
+
+
 
   const handleOnClickVerein = () => {
     if (vereinDropdownRef.current) {
@@ -24,6 +28,20 @@ function Navbar() {
     if (breitensportDropdownRef.current) {
       breitensportDropdownRef.current.focus();
       breitensportDropdownRef.current.blur();
+    }
+  };
+
+  const handleOpen = () => {
+    if (outletRef.current) {
+      outletRef.current.className =
+        "duration-400 ease-in ml-62 w-full ";
+    }
+  };
+
+  const handleBlur = () => {
+    if (outletRef.current) {
+      outletRef.current.className =
+        "duration-400 ease-in w-full";
     }
   };
 
@@ -132,12 +150,15 @@ function Navbar() {
   );
 
   return (
-    <div className="drawer z-1 fixed">
+    <div className="drawer">
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col">
         {/* Navbar */}
-        <div className="navbar bg-white w-full">
-          <div className="flex-8 lg:hidden">
+        <div className="navbar bg-white justify-between w-full">
+          <div
+            className="lg:hidden"
+            onClick={handleOpen}
+          >
             <label
               htmlFor="my-drawer-3"
               aria-label="open sidebar"
@@ -158,27 +179,36 @@ function Navbar() {
               </svg>
             </label>
           </div>
-          <div className="mx-2 flex-1 px-2 ">
+
+          <div className="mx-2  px-2 ">
             <Link to="/">
               <img className="h-14 " src={Logo} alt="logo" />
             </Link>
           </div>
-          <div className="hidden flex-none lg:block">
-            <ul className="menu menu-horizontal text-xl">
+          <div className="hidden lg:block ">
+            <ul className="menu menu-horizontal text-xl ">
               {/* Navbar menu content here */}
               {linkItems}
             </ul>
           </div>
         </div>
-        {/* Page content here */}
+        <div ref={outletRef} >
+          <Outlet />
+        </div>
       </div>
-      <div className="drawer-side">
+
+      <div
+        tabIndex={0}
+        className="drawer-side"
+        onBlur={handleBlur}
+        onClick={handleOpen}
+      >
         <label
           htmlFor="my-drawer-3"
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu bg-base-200 min-h-full w-80 p-4">
+        <ul className=" menu bg-base-200 min-h-full w-60 p-4 mt-18 ">
           {/* Sidebar content here */}
           {linkItems}
         </ul>

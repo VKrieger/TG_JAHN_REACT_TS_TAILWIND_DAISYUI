@@ -8,9 +8,9 @@ interface HeroConfigProps {
 
 function Hero({ heroConfig }: HeroConfigProps) {
   return (
-    <div className="">
+
       <div
-        className="mt-18  hero min-h-screen min-w-screen bg-blend-darken "
+        className="hero   lg:min-h-200 h-152 w-full bg-blend-darken "
         style={{
           backgroundImage: `url(${heroConfig.backgroundImage})`,
           backgroundPosition: "center",
@@ -19,12 +19,12 @@ function Hero({ heroConfig }: HeroConfigProps) {
           backgroundColor: `${heroConfig.backgroundColor}`,
         }}
       >
-        {heroConfig.backgroundVideo && (
+        {heroConfig.backgroundVideo && !isMobile && (
           <video
-            autoPlay={!isMobile}
+            autoPlay
             loop
             muted
-            className="invisible lg:visible  absolute  h-screen w-full object-cover fullScreen"
+            className="invisible lg:visible    h-200 w-screen object-cover object-center"
           >
             <source src={heroConfig.backgroundVideo} type="video/mp4" />
             Your browser does not support the video tag.
@@ -51,7 +51,6 @@ function Hero({ heroConfig }: HeroConfigProps) {
           </div>
         </div>
       </div>
-    </div>
   );
 }
 

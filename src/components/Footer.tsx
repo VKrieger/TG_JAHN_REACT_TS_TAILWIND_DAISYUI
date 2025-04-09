@@ -4,7 +4,7 @@ import InstagramLogo from "../styles/icons/instagram_logo.webp";
 
 function Footer() {
   return (
-    <footer className=" z-1 footer footer-horizontal footer-center bg-(--color-dark-green) text-base-content  p-8 text-white mt-auto gap-6 ">
+    <footer className="footer footer-horizontal footer-center bg-(--color-dark-green) text-base-content  p-8 text-white mt-auto gap-6">
       <p>TG Jahn Namedy auf Social Media</p>
       <nav>
         <div className="flex gap-10">
