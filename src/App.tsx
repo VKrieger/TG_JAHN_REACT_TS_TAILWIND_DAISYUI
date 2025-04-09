@@ -45,27 +45,27 @@ const router = createBrowserRouter(
           element: <Bambinis />,
         },
         {
-          path: "/d_jugend",
+          path: "/d jugend",
           element: <D_Jugend />,
         },
         {
-          path: "/f_jugend",
+          path: "/f jugend",
           element: <F_Jugend />,
         },
         {
-          path: "/d_jugend",
+          path: "/d jugend",
           element: <D_Jugend />,
         },
         {
-          path: "/e_jugend",
+          path: "/e jugend",
           element: <E_Jugend />,
         },
         {
-          path: "/herren",
+          path: "/alte herren",
           element: <Herren />,
         },
         {
-          path: "/bauch_beine_po",
+          path: "/bauch beine po",
           element: <Bauch_Beine_Po />,
         },
         {
@@ -81,7 +81,7 @@ const router = createBrowserRouter(
           element: <Leichtathletik />,
         },
         {
-          path: "/news",
+          path: "/aktuelles",
           element: <News />,
         },
         {
@@ -89,7 +89,7 @@ const router = createBrowserRouter(
           element: <Vorstand />,
         },
         {
-          path: "/ueber_uns",
+          path: "/Über Uns",
           element: <Ueber_uns />,
         },
         {

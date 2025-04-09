@@ -1,12 +1,28 @@
 import type { heroDetails } from "../api/types/heroDetails";
 import { Link } from "react-router-dom";
-import { isMobile } from "react-device-detect";
+import useWindowDimensions from "../hooks/useWindowDimensions"
+
+import { useEffect, useState } from "react";
 
 interface HeroConfigProps {
   heroConfig: heroDetails;
 }
 
+
+
 function Hero({ heroConfig }: HeroConfigProps) {
+  const {width} = useWindowDimensions();
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(()=>{
+    if(width < 1024){
+      setIsMobile(true)
+    } else {
+      setIsMobile(false)
+    }
+  },[width])
+
   return (
 
       <div
@@ -42,7 +58,7 @@ function Hero({ heroConfig }: HeroConfigProps) {
             {heroConfig.button && (
               <Link
                 to={heroConfig.buttonLink ?? "/"}
-                className="font-light duration-300 ease-in-out btn btn-wide rounded-full hover:bg-(--color-glow-green) hover:drop-shadow-(--drop-shadow-green) tracking-wider  hover:text-white border-none  hover:-translate-y-px  textShadow"
+                className="font-light duration-300 ease-in-out btn btn-wide rounded-full hover:bg-[#00df9a] hover:drop-shadow-(--drop-shadow-green) tracking-wider  hover:text-white border-none  hover:-translate-y-px  textShadow"
                 //
               >
                 {heroConfig.button}

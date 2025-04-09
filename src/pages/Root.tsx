@@ -1,7 +1,8 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useLayoutEffect, ReactNode } from "react";
+import { useLayoutEffect, ReactNode, useState } from "react";
+import { navItems, Logo } from "../api/navItems";
 
 interface WrapperProps {
   children: ReactNode;
@@ -19,13 +20,27 @@ const Wrapper = ({ children }: WrapperProps) => {
 };
 
 function Root() {
+
+  const [navOpen, setNavOpen] = useState(false);
+
   return (
+    <Wrapper>
+      <Navbar
 
-      <Wrapper>
-        <Navbar />
-        <Footer />
-      </Wrapper>
+        setNavOpen={setNavOpen}
+        navItems={navItems}
+        logo={Logo}
+      />
+      <div
 
+        className={`transition-transform duration-400 ease-in-out ${
+          navOpen ? "translate-x-1/2" : "translate-x-0"
+        }`}
+      >
+        <Outlet />
+      </div>
+      <Footer />
+    </Wrapper>
   );
 }
 
