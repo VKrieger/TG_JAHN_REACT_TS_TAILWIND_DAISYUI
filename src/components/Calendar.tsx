@@ -10,7 +10,11 @@ import {
   subMonths,
   isSameMonth,
   isSameDay,
+  parse,
+  isAfter,
+  isToday,
 } from "date-fns";
+import { de } from "date-fns/locale";
 
 interface CalendarEvent {
   title: string;
@@ -19,15 +23,32 @@ interface CalendarEvent {
 type EventsMap = Record<string, CalendarEvent[]>;
 
 const EventCalendar: React.FC = () => {
-  const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-
   const events: EventsMap = {
-    // Sample events
-    "2025-04-09": [{ title: "Meeting with team" }],
-    "2025-04-15": [{ title: "Project deadline" }],
-    "2025-04-22": [{ title: "Doctor Appointment" }],
+    "09-04-2025": [{ title: "Meeting with team" }],
+    "15-04-2025": [{ title: "Project deadline" }],
+    "22-04-2025": [
+      { title: "Doctor Appointment" },
+      { title: "Doctor Appointment" },
+      { title: "Doctor Appointment" },
+      { title: "Doctor Appointment" },
+    ],
+    "09-05-2025": [{ title: "Jahreshauptversammlung 2025" }],
   };
+
+  const today = new Date();
+  const eventDates = Object.keys(events)
+    .map((date) => parse(date, "dd-MM-yyyy", new Date()))
+    .sort((a, b) => a.getTime() - b.getTime());
+
+  const initialSelectedDate =
+    eventDates.find((d) => isAfter(d, today)) ||
+    eventDates[eventDates.length - 1] ||
+    today;
+
+  const [currentMonth, setCurrentMonth] = useState<Date>(
+    startOfMonth(initialSelectedDate)
+  );
+  const [selectedDate, setSelectedDate] = useState<Date>(initialSelectedDate);
 
   const renderHeader = (): ReactNode => {
     return (
@@ -39,7 +60,7 @@ const EventCalendar: React.FC = () => {
           {"<"}
         </button>
         <h2 className="text-xl font-bold text-gray-900">
-          {format(currentMonth, "MMMM yyyy")}
+          {format(currentMonth, "MMMM yyyy", { locale: de })}
         </h2>
         <button
           className="px-3 py-1 rounded-md bg-green-500 hover:bg-green-600"
@@ -54,24 +75,28 @@ const EventCalendar: React.FC = () => {
   const renderDays = (): ReactNode => {
     const days: ReactNode[] = [];
     const dateFormat = "EEE";
-    const startDate = startOfWeek(currentMonth);
+    const startDate = startOfWeek(currentMonth, { locale: de });
 
     for (let i = 0; i < 7; i++) {
       days.push(
         <div key={i} className="text-center font-medium text-gray-700">
-          {format(addDays(startDate, i), dateFormat)}
+          {format(addDays(startDate, i), dateFormat, { locale: de })}
         </div>
       );
     }
 
-    return <div className="grid grid-cols-7 text-sm text-green-600 sm:grid-cols-7 grid-cols-7">{days}</div>;
+    return (
+      <div className="grid grid-cols-7 text-sm text-green-600 sm:grid-cols-7 grid-cols-7">
+        {days}
+      </div>
+    );
   };
 
   const renderCells = (): ReactNode => {
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
-    const startDate = startOfWeek(monthStart);
-    const endDate = endOfWeek(monthEnd);
+    const startDate = startOfWeek(monthStart, { locale: de });
+    const endDate = endOfWeek(monthEnd, { locale: de });
 
     const rows: ReactNode[] = [];
     let days: ReactNode[] = [];
@@ -81,15 +106,16 @@ const EventCalendar: React.FC = () => {
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
         const cloneDay = day;
-        const formattedDate = format(day, "yyyy-MM-dd");
-        const hasEvents = !!events[formattedDate];
+        const formattedDate = format(day, "dd-MM-yyyy", { locale: de });
+        const hasEvents = events[formattedDate];
         const isSelected = isSameDay(day, selectedDate);
         const isCurrentMonth = isSameMonth(day, monthStart);
+        const isCurrentDay = isToday(day);
 
         days.push(
           <div
             key={day.toISOString()}
-            className={`aspect-square border border-gray-300 rounded-xl transition cursor-pointer flex flex-col justify-start p-1 ${
+            className={`aspect-square border border-gray-300 rounded-xl transition cursor-pointer flex flex-col justify-start p-1 overflow-hidden relative ${
               !isCurrentMonth
                 ? "bg-gray-100 text-gray-400"
                 : isSelected
@@ -101,23 +127,34 @@ const EventCalendar: React.FC = () => {
             onClick={() => setSelectedDate(cloneDay)}
           >
             <div className="text-sm font-semibold">
-              {format(day, dateFormat)}
+              {format(day, dateFormat, { locale: de })}
             </div>
-            <div className="hidden sm:block">
-              {hasEvents && (
-                <ul className="mt-1 text-xs list-none list-inside text-start">
-                  {events[formattedDate].map((event, index) => (
-                    <li key={index}>{event.title}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
+            {isCurrentDay && (
+              <div className="absolute top-1 right-1 w-2 h-2 rounded-full bg-red-500"></div>
+            )}
+            {hasEvents && (
+              <ul className="invisible md:visible mt-1 space-y-0.5">
+                {events[formattedDate].map((event, index) => (
+                  <li
+                    key={index}
+                    className={`text-xs rounded px-1 py-0.5 truncate ${
+                      isSelected ? "text-white" : "text-green-900"
+                    }`}
+                  >
+                    {event.title}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         );
         day = addDays(day, 1);
       }
       rows.push(
-        <div key={day.toISOString()} className="grid grid-cols-7 gap-2 sm:grid-cols-7 grid-cols-2">
+        <div
+          key={day.toISOString()}
+          className="grid grid-cols-7 gap-2 sm:grid-cols-7 grid-cols-2"
+        >
           {days}
         </div>
       );
@@ -127,16 +164,16 @@ const EventCalendar: React.FC = () => {
   };
 
   const renderSelectedDateEvents = (): ReactNode => {
-    const formattedDate = format(selectedDate, "yyyy-MM-dd");
+    const formattedDate = format(selectedDate, "dd-MM-yyyy", { locale: de });
     const selectedEvents = events[formattedDate];
 
     return (
-      <div className="mt-4 sm:hidden">
+      <div className="mt-4">
         <h3 className="text-lg font-semibold text-gray-900 mb-2">
-          Events on {format(selectedDate, "PPP")}:
+          Veranstaltungen am {format(selectedDate, "PPP", { locale: de })}:
         </h3>
         {selectedEvents ? (
-          <div className="space-y-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {selectedEvents.map((event, index) => (
               <div
                 key={index}
@@ -149,14 +186,14 @@ const EventCalendar: React.FC = () => {
             ))}
           </div>
         ) : (
-          <p className="text-sm text-gray-600">No events</p>
+          <p className="text-sm text-gray-600">Keine Veranstaltungen</p>
         )}
       </div>
     );
   };
 
   return (
-    <div className="max-w-4xl mx-auto bg-white p-4 rounded-2xl shadow-md sm:p-4 p-2">
+    <div className="max-w-4xl mx-auto bg-white p-4 rounded-2xl shadow-md sm:p-4 p-2 m-4">
       {renderHeader()}
       {renderDays()}
       {renderCells()}
